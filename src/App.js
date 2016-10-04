@@ -36,7 +36,7 @@ class App {
       y : 0 
     };
 
-    this.SONG_URL = 'https://soundcloud.com/mr-woodnote/06-get-down-mr-woodnote-feat-lil-rhys-theo-weywood-dubfx-and-the-flower-fairy';
+    this.SONG_URL = 'https://soundcloud.com/ahmed-marshal/dubfx-love-someone';
 
     this.initSoundCloud(this.SONG_URL);
 

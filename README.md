@@ -1,7 +1,6 @@
-#dancing-cube 
+#Dancing-torus 
 
 Description of your prototype
-
 
 ###Usage:
 
