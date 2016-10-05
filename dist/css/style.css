@@ -38,13 +38,18 @@ hr {
 }
 
 .help {
-  font-size: 11px;
+  font-size: 16px;
   position: absolute;
   display: block;
   bottom: 0;
   right: 20px;
   color: white;
   text-align: left;
+}
+
+.help a {
+  outline: none;
+  padding-left: 10px;
 }
 
 @media screen and (max-width: 600px) {

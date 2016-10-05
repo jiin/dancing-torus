@@ -2,48 +2,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    
     <title>Dancing Torus | MONOGRID Experiment by @neribarnini</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
     <link rel="stylesheet" type="text/css" href="css/normalize.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/sweetalert.css">
 
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
     <meta name="robots" content="all">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
+    <meta name="description" content="Rock your daytime with Dancing Torus">
+    <meta name="keywords" content="webgl, threejs, audio reactive">
     <meta name="copyright" content="MONOGRID">
     <meta name="contact" content="hello@mono-grid.com">
 
-    <meta property="og:url" content="">
-    <meta property="og:image" content="">
-    <meta property="og:site_name" content="">
-    <meta property="og:title" content="">
-    <meta property="og:type" content="">
-    <meta property="og:description" content="">
+    <meta property="og:url" content="http://dancing-torus.s3-website-us-east-1.amazonaws.com/">
+    <meta property="og:image" content="images/fb.png">
+    <meta property="og:site_name" content="Dancing Torus">
+    <meta property="og:title" content="Dancing Torus">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="Rock your daytime with Dancing Torus">
 </head>
 <body>
-    <p class="help">Press "D" to show debug info</p>
+    <p class="help">
+        <a href="#" id="share-facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+        <a href="#" id="share-twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+    </p>
     <div class="credits">
-      <p><span id="play">Play</span> | <span id="pause">Pause</span> | <span id="change_song">Change song</span></p>
+      <p><span id="play">Play</span> | <span id="pause">Pause</span> | <span id="change-song">Change song</span></p>
       <hr>
       <p>Experiment: <b>Dancing Torus</b></p>
       <p>by <a href="http://neribarnini.me" target="_blank">@neribarnini</a> | <a href="http://mono-grid.com" target="_blank">MONOGRID</a> | <a href="https://github.com/jiin/dancing-torus">fork on github</a></p>
       <p>tech stack: <a href="http://three.org" target="_blank">three.js</a>, <a href="https://www.npmjs.com/package/glslify" target="_blank">glslify</a>, <a href="https://www.npmjs.com/package/clubber" target="_blank">clubber</a>
     </div>
 
+    <div id="fb-root"></div>
+    <script>
+      
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId: '1271864829506576', 
+        status: true, 
+        cookie: true,
+        xfbml: true
+      });
+    };
+
+    (function() {
+      var e = document.createElement('script'); e.async = true;
+      e.src = document.location.protocol +
+      '//connect.facebook.net/en_US/all.js';
+      document.getElementById('fb-root').appendChild(e);
+    }());
+    </script>
+
+    <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-71627747-6', 'auto');
+      ga('send', 'pageview');</script>
+
     <script src="js/bundle.js"></script>
 </body>
-
-<!--<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-56136046-1', 'auto');
-ga('send', 'pageview');
-
-</script>-->
 
 </html>

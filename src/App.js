@@ -22,6 +22,7 @@ class App {
     this.scene    = null;
     this.audio    = null;
     this.counter  = 0;
+    this.pause    = false;
     this.clock    = new THREE.Clock();
     this.DEBUG    = true;
     this.SIZE     = {
@@ -36,11 +37,11 @@ class App {
       y : 0 
     };
 
-    this.SONG_URL = 'https://soundcloud.com/ahmed-marshal/dubfx-love-someone';
+    this.SONG_URL = 'https://soundcloud.com/mr-woodnote/06-get-down-mr-woodnote-feat-lil-rhys-theo-weywood-dubfx-and-the-flower-fairy';
 
     this.initSoundCloud(this.SONG_URL);
 
-    this.startStats();
+    //this.startStats();
     this.createRender();
     this.createScene();
     this.addComposer();
@@ -78,6 +79,7 @@ class App {
       }
 
       this.audio.crossOrigin = 'Anonymous';
+      this.audio.autoplay = false;
 
       this.clubber = null;
       this.audio.src = src;
@@ -128,7 +130,7 @@ class App {
 
     this.renderer.setClearColor(0x000000);
     this.renderer.setClearAlpha(0);
-    // this.renderer.setPixelRatio( window.devicePixelRatio || 1 )
+    this.renderer.setPixelRatio( window.devicePixelRatio || 1 )
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.gammaInput = true;
     this.renderer.gammaOuput = true;
@@ -180,7 +182,7 @@ class App {
     let gridHelper = new THREE.GridHelper(100, 10);
     //this.scene.add(gridHelper);
 
-    let geometry = new THREE.BufferGeometry().fromGeometry(new THREE.TorusGeometry(20, 21, 32, 100));
+    let geometry = new THREE.BufferGeometry().fromGeometry(new THREE.TorusGeometry(20, 21, 52, 120));
 
     let material = new THREE.ShaderMaterial({
       uniforms: {
@@ -216,11 +218,16 @@ class App {
     this.scene.add(this.ring);
   }
 
+  resetFrequencies()
+  {
+    this.pause = true;
+  }
+
   update()
   {
-    this.stats.begin();
+    if (this.stats) this.stats.begin();
 
-    if (this.clubber) {
+    if (this.clubber && !this.pause) {
 
       this.clubber.update();
 
@@ -260,8 +267,19 @@ class App {
     let el = this.clock.getElapsedTime() * .05;
     let d  = this.clock.getDelta();
 
-    this.ring.rotation.y = this.ring.rotation.z = 0.01 * time;
-    this.ring.material.uniforms.amplitude.value = 2.5 * Math.sin( this.ring.rotation.y * 0.125 );
+    if (!this.pause) {
+      this.ring.rotation.y = this.ring.rotation.z = 0.01 * time;
+      this.ring.material.uniforms.amplitude.value = 3.0 * Math.sin(this.ring.rotation.y * 0.12);
+    } else {
+      if (this.ring.material.uniforms.amplitude.value > 0.0)
+        this.ring.material.uniforms.amplitude.value -= 0.01;
+
+      for (var i = 0; i < this.displacementSize; i++) {
+        this.displacement[i] *= 0.9;
+        this.displacement[i + 1] *= 0.9;
+        this.displacement[i + 2] *= 0.9;
+      }
+    }
 
     this.ring.geometry.attributes.displacement.needsUpdate = true;
 
@@ -273,13 +291,35 @@ class App {
 
     this.composer.render(d);
 
-    this.stats.end()
+    if (this.stats) this.stats.end()
     requestAnimationFrame(this.update.bind(this));
   }
 
   /*
   events
   */
+
+  onShareFacebookClick()
+  { 
+    FB.ui({
+      method: 'share',
+      href: window.location.href,
+    }, function(response) {
+      if (!response)
+        sweetalert('Oops...', 'Something went wrong!', 'error');
+      else
+        sweetalert('Share success!')
+    });
+  }
+
+  onShareTwitterClick()
+  {
+    let shareUrl = 'https://twitter.com/share?url=' + escape(window.location.href) + '&text=' + document.title;
+
+    window.open(shareUrl, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
+
+    return false;
+  }
 
   onMouseMove(e)
   {
@@ -290,11 +330,13 @@ class App {
   onPlayClick(e)
   {
     this.audio.play();
+    this.pause = false;
   }
 
   onPauseClick(e) 
   {
     this.audio.pause();
+    this.resetFrequencies();
   }
 
   onChangeSongClick(e)
