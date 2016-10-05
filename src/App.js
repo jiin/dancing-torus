@@ -301,20 +301,16 @@ class App {
 
   onShareFacebookClick()
   { 
-    FB.ui({
-      method: 'share',
-      href: window.location.href,
-    }, function(response) {
-      if (!response)
-        sweetalert('Oops...', 'Something went wrong!', 'error');
-      else
-        sweetalert('Share success!')
-    });
+    let shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURI(window.location.origin);
+
+    window.open(shareUrl, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
+
+    return false;
   }
 
   onShareTwitterClick()
   {
-    let shareUrl = 'https://twitter.com/share?url=' + escape(window.location.href) + '&text=' + document.title;
+    let shareUrl = 'https://twitter.com/share?url=' + escape(window.location.origin) + '&text=' + document.title;
 
     window.open(shareUrl, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
 
@@ -323,8 +319,8 @@ class App {
 
   onMouseMove(e)
   {
-    this.MOUSE.x = event.clientX - this.SIZE.w2;
-    this.MOUSE.y = event.clientY - this.SIZE.h2;
+    this.MOUSE.x = e.clientX - this.SIZE.w2;
+    this.MOUSE.y = e.clientY - this.SIZE.h2;
   }
 
   onPlayClick(e)
