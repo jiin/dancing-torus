@@ -94,10 +94,10 @@ class App {
         });
 
         this.bands = {
-          low: this.clubber.band({from:5, to:32, smooth: [0.1,0.1,0.1,0.1]}),
-          mid_low: this.clubber.band({from:32, to:48, smooth: [0.1,0.1,0.1,0.1]}),
-          mid_high: this.clubber.band({from:48, to:64, smooth: [0.1,0.1,0.1,0.1]}),
-          high: this.clubber.band({from:64, to:160, smooth: [0.1,0.1,0.1,0.1]})
+          low: this.clubber.band({from:5, to:32, smooth: [1,1,1,1]}),
+          mid_low: this.clubber.band({from:32, to:48, smooth: [1,1,1,1]}),
+          mid_high: this.clubber.band({from:48, to:64, smooth: [1,1,1,1]}),
+          high: this.clubber.band({from:64, to:160, smooth: [1,1,1,1]})
         };
 
         this.clubber.listen(this.audio);
