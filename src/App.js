@@ -262,8 +262,6 @@ class App {
 
     var time = Date.now() * 0.001;
 
-    //this.ring.material.uniforms.color.value.offsetHSL( 0.0005, 0, 0 );
-
     let el = this.clock.getElapsedTime() * .05;
     let d  = this.clock.getDelta();
 
