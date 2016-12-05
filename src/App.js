@@ -41,7 +41,6 @@ class App {
 
     this.initSoundCloud(this.SONG_URL);
 
-    //this.startStats();
     this.createRender();
     this.createScene();
     this.addComposer();
@@ -130,7 +129,7 @@ class App {
 
     this.renderer.setClearColor(0x000000);
     this.renderer.setClearAlpha(0);
-    this.renderer.setPixelRatio( window.devicePixelRatio || 1 )
+    this.renderer.setPixelRatio(window.devicePixelRatio || 1);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.gammaInput = true;
     this.renderer.gammaOuput = true;
@@ -179,9 +178,6 @@ class App {
 
   addObjects()
   {
-    let gridHelper = new THREE.GridHelper(100, 10);
-    //this.scene.add(gridHelper);
-
     let geometry = new THREE.BufferGeometry().fromGeometry(new THREE.TorusGeometry(20, 21, 52, 120));
 
     let material = new THREE.ShaderMaterial({
