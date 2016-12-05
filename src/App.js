@@ -166,7 +166,7 @@ class App {
   createScene()
   {
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 9000 );
-    this.camera.position.set(100, 40, -200);
+    this.camera.position.set(100, 40, -250);
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enabled = this.DEBUG;
@@ -201,16 +201,16 @@ class App {
 
     geometry.addAttribute('displacement', new THREE.BufferAttribute(this.displacement, 1));
 
-    ring.position.x = 20;
-    ring.position.y = 50;
-    ring.position.z = -20;
+    ring.position.x = 10;
+    ring.position.y = 30;
+    ring.position.z = -10;
 
     material.side = THREE.DoubleSide;
 
     this.ring = ring;
 
     this.ring.material.uniforms.texture.value.wrapS = this.ring.material.uniforms.texture.value.wrapT = THREE.RepeatWrapping;
-
+    
     this.scene.add(this.ring);
   }
 
@@ -235,15 +235,15 @@ class App {
       ];
 
       let bandsSection = [
-        bands[0][0], bands[0][1], bands[0][2],
-        bands[1][0], bands[1][1], bands[1][2],
-        bands[2][0], bands[2][1], bands[2][2]
+        bands[0][0] * bands[0][2], bands[0][1] * bands[0][3], bands[0][3],
+        bands[1][0] * bands[1][2], bands[1][1] * bands[1][3], bands[1][3],
+        bands[2][0] * bands[2][2], bands[2][1] * bands[2][3], bands[2][3]
       ]
 
       let [r, g, b] = [
-        Math.max(bands[3][0], 0.22),
-        Math.max(bands[3][1], 0.22),
-        Math.max(bands[3][2], 0.22)
+        Math.max(bands[0][2] * bands[1][3], 0.22),
+        Math.max(bands[1][2] * bands[2][3], 0.22),
+        Math.max(bands[2][2] * bands[3][3], 0.22)
       ];
 
       this.ring.material.uniforms.color.value = new THREE.Color(r, g, b);
