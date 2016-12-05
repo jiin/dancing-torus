@@ -372,13 +372,7 @@ class App {
       h  : window.innerHeight,
       h2 : window.innerHeight / 2
     };
-
-    // OrthographicCamera
-    // this.camera.left = this.SIZE.w / - 2;
-		// this.camera.right = this.SIZE.w / 2;
-		// this.camera.top = this.SIZE.h / 2;
-		// this.camera.bottom = this.SIZE.h / - 2;
-
+    
     this.renderer.setSize(this.SIZE.w, this.SIZE.h);
     this.camera.aspect = this.SIZE.w / this.SIZE.h;
     this.camera.updateProjectionMatrix();
