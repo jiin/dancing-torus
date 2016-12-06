@@ -91,12 +91,12 @@ class App {
           size: 2048,
           mute: false
         });
-
+        var smooth = [1,1,1,1];
         this.bands = {
-          low: this.clubber.band({from:5, to:32, smooth: [1,1,1,1]}),
-          mid_low: this.clubber.band({from:32, to:48, smooth: [1,1,1,1]}),
-          mid_high: this.clubber.band({from:48, to:64, smooth: [1,1,1,1]}),
-          high: this.clubber.band({from:64, to:160, smooth: [1,1,1,1]})
+          low: this.clubber.band({from:5, to:32, smooth: smooth}),
+          mid_low: this.clubber.band({from:32, to:48, smooth: smooth}),
+          mid_high: this.clubber.band({from:48, to:64, smooth: smooth}),
+          high: this.clubber.band({from:64, to:96, smooth: smooth})
         };
 
         this.clubber.listen(this.audio);
@@ -233,26 +233,28 @@ class App {
         this.bands.mid_high(),
         this.bands.high()
       ];
-
+      
       let bandsSection = [
-        bands[0][0], bands[0][2], bands[0][3],
-        bands[1][0], bands[1][2], bands[1][3],
-        bands[2][0], bands[2][2], bands[2][3]
+        bands[0][0], bands[0][1], bands[0][2],
+        bands[1][0], bands[1][1], bands[1][2],
+        bands[2][0], bands[2][1], bands[2][2]
       ]
 
       let [r, g, b] = [
-        Math.max(bands[1][1] * bands[1][3], 0.22),
-        Math.max(bands[2][1] * bands[2][3], 0.22),
-        Math.max(bands[3][1] * bands[3][3], 0.22)
+        Math.max(bands[1][1] * bands[1][2], 0.22),
+        Math.max(bands[2][1] * bands[2][2], 0.22),
+        Math.max(bands[3][1] * bands[3][2], 0.22)
       ];
 
       this.ring.material.uniforms.color.value = new THREE.Color(r, g, b);
       this.renderer.setClearColor(new THREE.Color(1 - r, 1 - g, 1 - b), 1);
-
+      
+      var pump = Math.min(bands[0][3],bands[1][3]) * 33;
+      
       for (var i = 0; i < this.displacementSize; i++) {
-        this.displacement[i] = bandsSection[(Math.round(this.displacementSize / (i + 1)) % 9) - 1] * 100;
-        this.displacement[i + 1] = bandsSection[(Math.round(this.displacementSize / (i + 1)) % 9) - 1] * 100;
-        this.displacement[i + 2] = bandsSection[(Math.round(this.displacementSize / (i + 1)) % 9) - 1] * 100;
+        this.displacement[i] = bandsSection[(Math.round(this.displacementSize / (i + 1)) % 9) - 1] * 100 - pump;
+        this.displacement[i + 1] = bandsSection[(Math.round(this.displacementSize / (i + 1)) % 9) - 1] * 100  - pump;
+        this.displacement[i + 2] = bandsSection[(Math.round(this.displacementSize / (i + 1)) % 9) - 1] * 100  - pump;
       }
     }
 
