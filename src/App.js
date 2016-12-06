@@ -171,7 +171,7 @@ class App {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enabled = this.DEBUG;
     this.controls.maxDistance = 500;
-    this.controls.minDistance = 50;
+    this.controls.minDistance = 100;
 
     this.scene = new THREE.Scene();
   }
@@ -203,7 +203,7 @@ class App {
 
     ring.position.x = 10;
     ring.position.y = 30;
-    ring.position.z = -10;
+    ring.position.z = 0;
 
     material.side = THREE.DoubleSide;
 
@@ -265,7 +265,7 @@ class App {
 
     if (!this.pause) {
       this.ring.rotation.y = this.ring.rotation.z = 0.01 * time;
-      this.ring.material.uniforms.amplitude.value = 3.0 * Math.sin(this.ring.rotation.y * 0.12);
+      this.ring.material.uniforms.amplitude.value = 1.0 + Math.sin(this.ring.rotation.y * 0.12) * 0.33 ;
     } else {
       if (this.ring.material.uniforms.amplitude.value > 0.0)
         this.ring.material.uniforms.amplitude.value -= 0.01;
