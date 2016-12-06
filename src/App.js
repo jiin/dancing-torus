@@ -235,15 +235,15 @@ class App {
       ];
 
       let bandsSection = [
-        bands[0][0] * bands[0][2], bands[0][1] * bands[0][3], bands[0][3],
-        bands[1][0] * bands[1][2], bands[1][1] * bands[1][3], bands[1][3],
-        bands[2][0] * bands[2][2], bands[2][1] * bands[2][3], bands[2][3]
+        bands[0][0], bands[0][2], bands[0][3],
+        bands[1][0], bands[1][2], bands[1][3],
+        bands[2][0], bands[2][2], bands[2][3]
       ]
 
       let [r, g, b] = [
-        Math.max(bands[0][2] * bands[1][3], 0.22),
-        Math.max(bands[1][2] * bands[2][3], 0.22),
-        Math.max(bands[2][2] * bands[3][3], 0.22)
+        Math.max(bands[1][1] * bands[1][3], 0.22),
+        Math.max(bands[2][1] * bands[2][3], 0.22),
+        Math.max(bands[3][1] * bands[3][3], 0.22)
       ];
 
       this.ring.material.uniforms.color.value = new THREE.Color(r, g, b);
