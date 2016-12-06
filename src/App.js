@@ -265,7 +265,7 @@ class App {
 
     if (!this.pause) {
       this.ring.rotation.y = this.ring.rotation.z = 0.01 * time;
-      this.ring.material.uniforms.amplitude.value = 1.0 + Math.sin(this.ring.rotation.y * 0.12) * 0.33 ;
+      this.ring.material.uniforms.amplitude.value = 1.0 + Math.abs(Math.sin(this.ring.rotation.y * 0.12) * 0.66);
     } else {
       if (this.ring.material.uniforms.amplitude.value > 0.0)
         this.ring.material.uniforms.amplitude.value -= 0.01;
