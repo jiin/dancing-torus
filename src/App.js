@@ -91,12 +91,12 @@ class App {
           size: 2048,
           mute: false
         });
-
+        var smooth = [1,1,1,1];
         this.bands = {
-          low: this.clubber.band({from:5, to:32, smooth: [1,1,1,1]}),
-          mid_low: this.clubber.band({from:32, to:48, smooth: [1,1,1,1]}),
-          mid_high: this.clubber.band({from:48, to:64, smooth: [1,1,1,1]}),
-          high: this.clubber.band({from:64, to:160, smooth: [1,1,1,1]})
+          low: this.clubber.band({from:5, to:32, smooth: smooth}),
+          mid_low: this.clubber.band({from:32, to:48, smooth: smooth}),
+          mid_high: this.clubber.band({from:48, to:64, smooth: smooth}),
+          high: this.clubber.band({from:64, to:96, smooth: smooth})
         };
 
         this.clubber.listen(this.audio);
@@ -166,12 +166,12 @@ class App {
   createScene()
   {
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 9000 );
-    this.camera.position.set(100, 40, -200);
+    this.camera.position.set(100, 40, -250);
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enabled = this.DEBUG;
     this.controls.maxDistance = 500;
-    this.controls.minDistance = 50;
+    this.controls.minDistance = 100;
 
     this.scene = new THREE.Scene();
   }
@@ -201,16 +201,16 @@ class App {
 
     geometry.addAttribute('displacement', new THREE.BufferAttribute(this.displacement, 1));
 
-    ring.position.x = 20;
-    ring.position.y = 50;
-    ring.position.z = -20;
+    ring.position.x = 10;
+    ring.position.y = 30;
+    ring.position.z = 0;
 
     material.side = THREE.DoubleSide;
 
     this.ring = ring;
 
     this.ring.material.uniforms.texture.value.wrapS = this.ring.material.uniforms.texture.value.wrapT = THREE.RepeatWrapping;
-
+    
     this.scene.add(this.ring);
   }
 
@@ -233,7 +233,7 @@ class App {
         this.bands.mid_high(),
         this.bands.high()
       ];
-
+      
       let bandsSection = [
         bands[0][0], bands[0][1], bands[0][2],
         bands[1][0], bands[1][1], bands[1][2],
@@ -241,18 +241,20 @@ class App {
       ]
 
       let [r, g, b] = [
-        Math.max(bands[3][0], 0.22),
-        Math.max(bands[3][1], 0.22),
-        Math.max(bands[3][2], 0.22)
+        Math.max(bands[1][1] * bands[1][2], 0.22),
+        Math.max(bands[2][1] * bands[2][2], 0.22),
+        Math.max(bands[3][1] * bands[3][2], 0.22)
       ];
 
       this.ring.material.uniforms.color.value = new THREE.Color(r, g, b);
       this.renderer.setClearColor(new THREE.Color(1 - r, 1 - g, 1 - b), 1);
-
+      
+      var pump = Math.min(bands[0][3],bands[1][3]) * 33;
+      
       for (var i = 0; i < this.displacementSize; i++) {
-        this.displacement[i] = bandsSection[(Math.round(this.displacementSize / (i + 1)) % 9) - 1] * 100;
-        this.displacement[i + 1] = bandsSection[(Math.round(this.displacementSize / (i + 1)) % 9) - 1] * 100;
-        this.displacement[i + 2] = bandsSection[(Math.round(this.displacementSize / (i + 1)) % 9) - 1] * 100;
+        this.displacement[i] = bandsSection[(Math.round(this.displacementSize / (i + 1)) % 9) - 1] * 100 - pump;
+        this.displacement[i + 1] = bandsSection[(Math.round(this.displacementSize / (i + 1)) % 9) - 1] * 100  - pump;
+        this.displacement[i + 2] = bandsSection[(Math.round(this.displacementSize / (i + 1)) % 9) - 1] * 100  - pump;
       }
     }
 
@@ -263,7 +265,7 @@ class App {
 
     if (!this.pause) {
       this.ring.rotation.y = this.ring.rotation.z = 0.01 * time;
-      this.ring.material.uniforms.amplitude.value = 3.0 * Math.sin(this.ring.rotation.y * 0.12);
+      this.ring.material.uniforms.amplitude.value = 1.0 + Math.abs(Math.sin(this.ring.rotation.y * 0.12) * 0.66);
     } else {
       if (this.ring.material.uniforms.amplitude.value > 0.0)
         this.ring.material.uniforms.amplitude.value -= 0.01;
